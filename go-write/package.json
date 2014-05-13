@@ -1,0 +1,21 @@
+{
+	"name": "go-write",
+	"version": "0.0.1",
+	"authors": [
+		{
+			"name": "Jairo",
+			"email": "JJEcu13@hotmail.com"
+		}
+	],
+	"dependencies": {
+		"express": "*",
+		"connect": "*",
+		"connect-mongo": "*",
+		"cookie": "*",
+		"node-ckeditor": "*",
+		"ejs": "*",
+		"node-uuid": "*",
+		"async": "*",
+		"mongojs": "*"
+	}
+}
