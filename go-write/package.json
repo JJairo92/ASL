@@ -8,14 +8,14 @@
 		}
 	],
 	"dependencies": {
-		"express": "*",
-		"connect": "*",
-		"connect-mongo": "*",
+		"async": "0.2.9",
+		"express": "3.4.7",
+		"connect": "2.12.0",
+		"connect-mongo": "0.4.0",
 		"cookie": "*",
 		"node-ckeditor": "*",
 		"ejs": "*",
 		"node-uuid": "*",
-		"async": "*",
 		"mongojs": "*"
 	}
 }
