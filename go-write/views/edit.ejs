@@ -1,0 +1,33 @@
+<% include header.ejs %>
+	
+	<header>
+		<h1 class="logo-profile"><a href="/" title="Back to Home"><img src="logo2.png" /></a></h1>
+
+		<nav>
+			<ul>
+				<li><a href="/signout" title="Log Out">Log Out</a></li>
+			</ul>
+		</nav>
+	</header>
+
+	<h2 class="page-title">Edit Book</h2>
+
+	<section class="book-create-edit">
+		<form action="/edit" method="POST">
+
+			<input type="text" name="title" placeholder="Book Title" required />
+			<input type="text" name="genre" placeholder="Book Genre" required />
+
+			<textarea name="bookContent" id="bookContent" rows="100" cols="80">
+
+			</textarea>
+				
+			<input type="submit" name="update-book" value="Update" />
+		</form>
+	</section> <!-- Closes "book-create" section -->
+
+	<script>
+		CKEDITOR.replace('bookContent');
+	</script>
+
+<% include footer.ejs %>

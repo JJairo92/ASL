@@ -1,0 +1,39 @@
+<% include header.ejs %>
+	
+	<header>
+		<h1 class="logo-profile"><a href="/" title="Back to Home"><img src="logo2.png" /></a></h1>
+
+		<nav>
+			<ul>
+				<li><a href="/signout" title="Log Out">Log Out</a></li>
+			</ul>
+		</nav>
+	</header>
+
+	<h2 class="page-title">Hello, <%= user %>!</h2>
+	<div id="new-book"><a href="/new">New Book+</a></div>
+
+	<section id="books-list">
+		<table>
+			<thead>
+				<tr>
+					<th class="info-col">Book</th>
+					<th class="info-col">Genre</th>
+					<th class="info-col">Last Updated</th>
+					<th class="options-col">Options</th>
+				</tr>
+			</thead>
+			<tbody>
+				<% for(var i in books) { %>
+				<tr>
+					<td class="info-col"><%= books[i].title %></td>
+					<td class="info-col"><%= books[i].genre %></td>
+					<td class="info-col"><%= books[i].last_updated %></td>
+					<td class="options-col"><a href="/edit/:book" class="options" title="Edit Book books[i].title">Edit</a><a href="/delete?book=<%=books[i].book_id %>" class="options" title="Delete Book books[i].title">Delete</a></td>
+				</tr>
+				<% }; %>
+			</tbody>
+		</table>
+	</section> <!-- Closes "books-list" section -->
+
+<% include footer.ejs %>

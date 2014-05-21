@@ -1,20 +1,15 @@
 <% include header.ejs %>
 
-    <h1>Go Write!</h1>
+	<h1 class="logo-landing"><a href="/" title="Back to Home"><img src="logo.png" /></a></h1>
 
-	<form action="/signup" method="POST">
-        <input type="email" name="email-signup" placeholder="email@email.com" />
-        <input type="text" name="username-signup" placeholder="Username" />
-        <input type="password" name="password-signup" placeholder="Password" />
-        
-        <input type="submit" name="submit-signup" value="Sign Up!" />
-	</form>
-
-    <form action="/login" method="GET">
-        <input type="email" name="email-login" placeholder="email@email.com" />
-        <input type="password" name="password-login" placeholder="Password" />
-        
-        <input type="submit" name="submit-login" value="Log In!" />
-	</form>
+	<div class="landing">
+		<form id="login-form" action="/login" method="POST">
+			<input type="email" name="email" placeholder="email@email.com" autofocus required />
+			<input type="password" name="password" placeholder="Password" required />
+			
+			<input type="submit" name="login" value="Log In!" />
+		</form>
+		<p id="landing-text">Not a member? <a href="/register" title="Link to Signup Page">Create account here</a></p>
+	</div> <!-- Closes "landing" div -->
 
 <% include footer.ejs %>
