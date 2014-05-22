@@ -1,0 +1,22 @@
+<% include header.ejs %>
+	
+	<header>
+		<h1 class="logo-profile"><a href="/" title="Back to Home"><img src="logo2.png" /></a></h1>
+
+		<nav>
+			<ul>
+				<li><a href="/signout" title="Log Out">Log Out</a></li>
+			</ul>
+		</nav>
+	</header>
+
+	<h2 class="page-title"><%= title %></h2>
+	<small>Last updated on <%= last_updated %></small>
+
+	<h3><strong>Genre: </strong><%= genre %></h3>
+
+	<div id="body-view">
+		<%= content %>
+	</div><!-- Closes "body-view" div>
+
+<% include footer.ejs %>

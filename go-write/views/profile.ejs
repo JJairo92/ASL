@@ -26,10 +26,10 @@
 			<tbody>
 				<% for(var i in books) { %>
 				<tr>
-					<td class="info-col"><%= books[i].title %></td>
+					<td class="info-col"><a href="/view/<%= books[i].book_id %>" title="View books[i].title"><%= books[i].title %></a></td>
 					<td class="info-col"><%= books[i].genre %></td>
 					<td class="info-col"><%= books[i].last_updated %></td>
-					<td class="options-col"><a href="/edit/:book" class="options" title="Edit Book books[i].title">Edit</a><a href="/delete?book=<%=books[i].book_id %>" class="options" title="Delete Book books[i].title">Delete</a></td>
+					<td class="options-col"><a href="/edit/<%= books[i].book_id %>" class="options" title="Edit Book books[i].title">Edit</a><a href="/delete/<%= books[i].book_id %>" class="options" title="Delete Book books[i].title">Delete</a></td>
 				</tr>
 				<% }; %>
 			</tbody>

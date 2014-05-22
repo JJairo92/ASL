@@ -13,13 +13,13 @@
 	<h2 class="page-title">Edit Book</h2>
 
 	<section class="book-create-edit">
-		<form action="/edit" method="POST">
+		<form action="/update" method="POST">
 
-			<input type="text" name="title" placeholder="Book Title" required />
-			<input type="text" name="genre" placeholder="Book Genre" required />
+			<input type="text" name="title" placeholder="Book Title" value="<%= title %>" required />
+			<input type="text" name="genre" placeholder="Book Genre" value="<%= genre %>" required />
 
-			<textarea name="bookContent" id="bookContent" rows="100" cols="80">
-
+			<textarea name="bookEdit" id="bookEdit" rows="100" cols="80">
+			<%= content %>
 			</textarea>
 				
 			<input type="submit" name="update-book" value="Update" />
@@ -27,7 +27,7 @@
 	</section> <!-- Closes "book-create" section -->
 
 	<script>
-		CKEDITOR.replace('bookContent');
+		CKEDITOR.replace('bookEdit');
 	</script>
 
 <% include footer.ejs %>

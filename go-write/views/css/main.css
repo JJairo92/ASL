@@ -197,7 +197,7 @@ th, td {
 	padding: 2%;
 	text-align: left;
 	overflow: hidden;
-	max-width: 10%;
+	min-width: 10%;
 	width: 10%;
 }
 	
@@ -294,33 +294,19 @@ tr:last-child td.last {
 	float: right;
 }
 
+/* --------------- View/Read Pages --------------- */
 
+small {
+	margin-top: 0;
+	float: left;
+	clear: left;
+	margin-left: 10%;
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#body-view {
+	text-align: center;
+	clear: both;
+	font-size: 16pt;
+	margin-left: 14%;
+	min-width: 50%;
+}

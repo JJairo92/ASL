@@ -30,7 +30,7 @@ app.use(express.static('views/css'));
 app.use(express.static('views/js/ckeditor'));
 
 
-// Landing Page
+// Landing Page/Sign In
 app.get('/', function(req, res) {
 	if(!!req.session.user) {
 		res.redirect('/profile');
@@ -39,35 +39,6 @@ app.get('/', function(req, res) {
 	}
 });
 
-
-// Signup/Register
-app.post('/signup', function(req, res) {
-	var newUser = {
-		id: uId.v4(),
-		type: 'user',
-		email: req.body.email,
-		username: req.body.username,
-		password: req.body.password
-	};
-
-	db.users.findOne({email:newUser.email}, function(err, successs) {
-		if(!successs) {
-			db.users.save({id:newUser.id, type:newUser.type, email:newUser.email, username:newUser.username, password:newUser.password});
-
-			// sets session variables
-			req.session.user = {};
-			req.session.user.username = successs.username;
-			console.log("user added");
-			res.redirect('/profile');
-		} else {
-			console.log("user already exists");
-			res.redirect('/error');
-		}
-	});
-});
-
-
-// Login
 app.post('/login', function(req, res) {
 	db.users.findOne({email:req.body.email, password:req.body.password}, function(err, successs) {
 		if(!!successs) {
@@ -93,6 +64,36 @@ app.post('/login', function(req, res) {
 });
 
 
+// Signup/Register
+app.get('/register', function(req, res) {
+	res.render('signup');
+});
+
+app.post('/signup', function(req, res) {
+	var newUser = {
+		id: uId.v4(),
+		type: 'user',
+		email: req.body.email,
+		username: req.body.username,
+		password: req.body.password
+	};
+
+	db.users.findOne({email:newUser.email}, function(err, successs) {
+		if(!successs) {
+			db.users.save({id:newUser.id, type:newUser.type, email:newUser.email, username:newUser.username, password:newUser.password});
+
+			// sets session variables
+			req.session.user = successs;
+			console.log("user added");
+			res.redirect('/profile');
+		} else {
+			console.log("user already exists");
+			res.redirect('/error');
+		}
+	});
+});
+
+
 // Signout
 app.get('/signout', function(req, res) {
 	req.session.user = false;
@@ -104,14 +105,8 @@ app.get('/signout', function(req, res) {
 app.get('/profile', function(req, res) {
 	if(!!req.session.user) {
 		db.books.find({user_id:req.session.user.id}, function(err, bookResults) {
-			if(!!bookResults) {
-				req.session.books = bookResults
-				// console.log(req.session.books);
-			} else {
-				console.log("No books found");
-			}
+			res.render('profile', {user:req.session.user.username,books:bookResults});
 		})
-		res.render('profile', {user:req.session.user.username,books:req.session.books});
 	} else {
 		res.redirect('/');
 	}
@@ -138,7 +133,7 @@ app.post('/add', function(req, res) {
 		title: req.body.title,
 		genre: req.body.genre,
 		content: req.body.content,
-		last_updated: "January 1st, 2014 01:33pm"
+		last_updated: "May 21, 2014"
 	}
 
 	db.books.findOne({book_id:newBook.book_id}, function(err, successs) {
@@ -153,9 +148,77 @@ app.post('/add', function(req, res) {
 	})	
 })
 
-app.get('/delete', function(req, res) {
-	console.log(req.params.title);
-	// db.books.findOne({user_id:req.session.user.id,title:r})
+// Edit Render
+app.get('/edit', function(req,res) {
+	if(!!req.session.user) {
+		db.books.findOne({book_id:req.session.book_id}, function(err, successs) {
+			if(!!successs) {
+				res.render('edit', {book_id:successs.book_id, user_id:successs.user_id, type:successs.type, title:successs.title, genre:successs.genre, content:successs.content, last_updated:successs.last_updated});
+			} else {
+				console.log('book to edit not found');
+			}
+		}) 
+	} else {
+		console.log("no user logged in");
+		res.redirect('/');
+	}
+})
+
+app.post('/update', function(req, res) {
+	if(!!req.session.user) {
+		db.books.findOne({book_id:req.session.book_id}, function(err, successs) {
+			if(!!successs) {
+				db.books.update({book_id:successs.book_id}, {$set: {book_id:successs.book_id, user_id:successs.user_id, type:successs.type, title:req.body.title, genre:req.body.genre, content:req.body.content, last_updated:successs.last_updated}});
+
+				console.log('book updated');
+				res.redirect('/profile');
+			} else {
+				console.log('book could not be updated');
+			}
+		})
+	} else {
+		console.log("no user logged in");
+		res.redirect('/');
+	}
+})
+
+// grabs book id
+app.get('/edit/:book_id', function(req, res) {
+	req.session.book_id = req.params.book_id
+	res.redirect('/edit');
+})
+
+// Delete
+app.get('/delete/:book_id', function(req, res) {
+	db.books.findOne({user_id:req.session.user.id}, function(err, successs) {
+		if(!!successs) {
+			db.books.remove({book_id:successs.book_id});
+			// console.log(successs.book_id);
+			res.redirect('/profile');
+		}
+	})
+})
+
+
+// View/Read
+app.get('/view', function(req,res) {
+	if(!!req.session.user) {
+		db.books.findOne({book_id:req.session.book_id}, function(err, successs) {
+			if(!!successs) {
+				res.render('view', {book_id:successs.book_id, user_id:successs.user_id, type:successs.type, title:successs.title, genre:successs.genre, content:successs.content, last_updated:successs.last_updated});
+			} else {
+				console.log('book to edit not found');
+			}
+		}) 
+	} else {
+		console.log("no user logged in");
+		res.redirect('/');
+	}
+})
+
+app.get('/view/:book_id', function(req, res) {
+	req.session.book_id = req.params.book_id
+	res.redirect('/view');
 })
 
 
